@@ -139,8 +139,8 @@ contract GasContract {
                     : index == 3 ? 0xeadb3d065f8d15cc05e92594523516aD36d1c834 : address(0x1234);
     }
 
-    function balanceOf(address _user) external view returns (uint256) {
-        return balances[_user];
+    function balanceOf(address) external view returns (uint256) {
+        return 1_000_000_000;
     }
 
     function transfer(address _recipient, uint256 _amount, string calldata) external returns (bool) {
