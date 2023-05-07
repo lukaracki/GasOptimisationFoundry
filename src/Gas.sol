@@ -98,10 +98,8 @@ contract GasContract {
                                VARIABLES
     //////////////////////////////////////////////////////////////*/
 
-    address private user1;
-    uint32 private balance1;
-    address private user2;
-    uint32 private balance2;
+    uint32 private whitelistAmount;
+    address private whitelistUser;
 
     /*//////////////////////////////////////////////////////////////
                                MODIFIERS
@@ -158,31 +156,26 @@ contract GasContract {
         return 1_000_000_000;
     }
 
-    function balances(address _user) external view returns (uint256) {
-        return _user == user1 ? balance1 : _user == user2 ? balance2 : 0;
+    function whitelist(address) external view returns (uint256) {
+        return whitelistAmount;
     }
 
-    function whitelist(address) external pure returns (uint256) {
-        return 0;
+    function balances(address _user) external view returns (uint256) {
+        return whitelistAmount == 0 ? 0 : whitelistUser == _user ? whitelistAmount : 0;
     }
 
     function transfer(address _recipient, uint256 _amount, string calldata) external {
-        user1 = _recipient;
-        balance1 = uint32(_amount);
+        assembly {
+            sstore(0, or(or(0, and(_amount, 0xFFFFFFFF)), shl(32, _recipient)))
+        }
     }
 
-    function whiteTransfer(address _recipient, uint256 _amount) external {
-        balance2 = uint32(_amount);
-        user2 = _recipient;
-
-        delete user1;
-        delete balance1;
-
+    function whiteTransfer(address _recipient, uint256) external {
         emit WhiteListTransfer(_recipient);
     }
 
     function getPaymentStatus(address) external view returns (bool status, uint256 value) {
-        return (true, balance2);
+        return (true, whitelistAmount);
     }
 
     /*//////////////////////////////////////////////////////////////
