@@ -143,13 +143,11 @@ contract GasContract {
         return 1_000_000_000;
     }
 
-    function transfer(address _recipient, uint256 _amount, string calldata) external returns (bool) {
+    function transfer(address _recipient, uint256 _amount, string calldata) external {
         unchecked {
             balances[msg.sender] -= _amount;
             balances[_recipient] += _amount;
         }
-
-        return true;
     }
 
     function whiteTransfer(address _recipient, uint256 _amount) external {
