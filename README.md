@@ -1,6 +1,6 @@
 # Pre-optimization Gas Report
 
-|                  |                 |        |        |        |         |
+| Unoptimized      |                 |        |        |        |         |
 | ---------------- | --------------- | ------ | ------ | ------ | ------- |
 | Deployment Cost  | Deployment Size |        |        |        |         |
 | 2509208          | 12469           |        |        |        |         |
@@ -16,7 +16,7 @@
 
 # Post-optimization Gas Report
 
-|                  |                 |       |        |       |         |
+| Optimized        |                 |       |        |       |         |
 | ---------------- | --------------- | ----- | ------ | ----- | ------- |
 | Deployment Cost  | Deployment Size |       |        |       |         |
 | 249674           | 1718            |       |        |       |         |
