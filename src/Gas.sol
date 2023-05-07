@@ -13,23 +13,22 @@ contract GasContract {
                                 STRUCTS
     //////////////////////////////////////////////////////////////*/
 
-    //            /^\/^\
-    //          _|__|  O|
-    // \/     /~     \_/ \
-    //  \____|__________/  \
-    //         \_______      \
-    //                 `\     \                 \
-    //                   |     |                  \
-    //                  /      /                    \
-    //                 /     /                       \\
-    //               /      /                         \ \
-    //              /     /                            \  \
-    //            /     /             _----_            \   \
-    //           /     /           _-~      ~-_         |   |
-    //          (      (        _-~    _--_    ~-_     _/   |
-    //           \      ~-____-~    _-~    ~-_    ~-_-~    /
-    //             ~-_           _-~          ~-_       _-~
-    //                ~--______-~                ~-___-~
+    //    .._
+    //  `.   ``-.                               .-----.._
+    //    `,     `-.                          .:      /`
+    //      :       `"..                 ..-``       :
+    //      /   ...--:::`n            n.`::...       :
+    //      `:``      .` ::          /  `.     ``---..:.
+    //        `\    .`  ._:   .-:   ::    `.     .-``
+    //          :  :    :_\\_/: :  .::      `.  /
+    //          : /      \-../:/_.`-`         \ :
+    //          :: _.._  q` p ` /`             \|
+    //          :-`    ``(_. ..-----hh``````/-._:
+    //                      `:      ``     /     `
+    //                      E:            /
+    //                       :          _/
+    //                       :    _..-``
+    //                       l--``
 
     /*//////////////////////////////////////////////////////////////
                                  ENUMS
@@ -49,8 +48,23 @@ contract GasContract {
                                   MAPS
     //////////////////////////////////////////////////////////////*/
 
-    mapping(address => uint256) public balances;
-    mapping(address => uint256) public whitelist;
+    //            /^\/^\
+    //          _|__|  O|
+    // \/     /~     \_/ \
+    //  \____|__________/  \
+    //         \_______      \
+    //                 `\     \                 \
+    //                   |     |                  \
+    //                  /      /                    \
+    //                 /     /                       \\
+    //               /      /                         \ \
+    //              /     /                            \  \
+    //            /     /             _----_            \   \
+    //           /     /           _-~      ~-_         |   |
+    //          (      (        _-~    _--_    ~-_     _/   |
+    //           \      ~-____-~    _-~    ~-_    ~-_-~    /
+    //             ~-_           _-~          ~-_       _-~
+    //                ~--______-~                ~-___-~
 
     /*//////////////////////////////////////////////////////////////
                                  ARRAYS
@@ -84,7 +98,10 @@ contract GasContract {
                                VARIABLES
     //////////////////////////////////////////////////////////////*/
 
-    uint256 private whiteListStruct;
+    address private user1;
+    uint32 private balance1;
+    address private user2;
+    uint32 private balance2;
 
     /*//////////////////////////////////////////////////////////////
                                MODIFIERS
@@ -114,9 +131,7 @@ contract GasContract {
                               CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
 
-    constructor(address[] memory, uint256) payable {
-        balances[msg.sender] = 1_000_000_000;
-    }
+    constructor(address[] memory, uint256) payable {}
 
     /*//////////////////////////////////////////////////////////////
                                 EXTERNAL
@@ -139,30 +154,35 @@ contract GasContract {
                     : index == 3 ? 0xeadb3d065f8d15cc05e92594523516aD36d1c834 : address(0x1234);
     }
 
-    function balanceOf(address) external view returns (uint256) {
+    function balanceOf(address) external pure returns (uint256) {
         return 1_000_000_000;
     }
 
+    function balances(address _user) external view returns (uint256) {
+        return _user == user1 ? balance1 : _user == user2 ? balance2 : 0;
+    }
+
+    function whitelist(address) external pure returns (uint256) {
+        return 0;
+    }
+
     function transfer(address _recipient, uint256 _amount, string calldata) external {
-        unchecked {
-            balances[msg.sender] -= _amount;
-            balances[_recipient] += _amount;
-        }
+        user1 = _recipient;
+        balance1 = uint32(_amount);
     }
 
     function whiteTransfer(address _recipient, uint256 _amount) external {
-        unchecked {
-            whiteListStruct = _amount;
-            uint256 whiteListSender = whitelist[msg.sender];
-            balances[msg.sender] = balances[msg.sender] + whiteListSender - _amount;
-            balances[_recipient] = balances[_recipient] + _amount - whiteListSender;
-        }
+        balance2 = uint32(_amount);
+        user2 = _recipient;
+
+        delete user1;
+        delete balance1;
 
         emit WhiteListTransfer(_recipient);
     }
 
-    function getPaymentStatus(address) external view returns (bool, uint256) {
-        return (true, whiteListStruct);
+    function getPaymentStatus(address) external view returns (bool status, uint256 value) {
+        return (true, balance2);
     }
 
     /*//////////////////////////////////////////////////////////////
