@@ -1,6 +1,6 @@
 # Pre-optimization Gas Report
 
-| src-unoptimized/Gas.sol:GasContract contract |                 |        |        |        |         |
+| src-unoptimized/Gas.sol |                 |        |        |        |         |
 |----------------------------------|-----------------|--------|--------|--------|---------|
 | Deployment Cost                  | Deployment Size |        |        |        |         |
 | 2509208                          | 12469           |        |        |        |         |
@@ -16,7 +16,7 @@
 
 # Post-optimization Gas Report
 
-| src/Gas.sol:GasContract contract |                 |       |        |       |         |
+| src/Gas.sol |                 |       |        |       |         |
 |----------------------------------|-----------------|-------|--------|-------|---------|
 | Deployment Cost                  | Deployment Size |       |        |       |         |
 | 254680                           | 1743            |       |        |       |         |
