@@ -9,34 +9,6 @@ contract GasContract {
     event AddedToWhitelist(address userAddress, uint256 tier);
     event WhiteListTransfer(address indexed);
 
-    /*/////////////////////////////////////////////////////////////
-                               VARIABLES
-    //////////////////////////////////////////////////////////////*/
-
-    //
-    //          , ,\ ,'\,'\ ,'\ ,\ ,
-    //    ,  ;\/ \' `'     `   '  /|
-    //    |\/                      |
-    //    :                        |
-    //    :                        |
-    //     |                       |
-    //     |                       |
-    //     :               -.     _|
-    //      :                \     `.
-    //      |         ________:______\
-    //      :       ,'o       / o    ;
-    //      :       \       ,'-----./
-    //       \_      `--.--'        )
-    //      ,` `.              ,---'|
-    //      : `                     |
-    //       `,-'                   |
-    //       /      ,---.          ,'
-    //    ,-'            `-,------'
-    //   '   `.        ,--'
-    //         `-.____/
-    //                 \
-    //
-
     /*//////////////////////////////////////////////////////////////
                                 STRUCTS
     //////////////////////////////////////////////////////////////*/
@@ -79,39 +51,40 @@ contract GasContract {
 
     mapping(address => uint256) public balances;
     mapping(address => uint256) public whitelist;
-    mapping(address => uint256) private whiteListStruct;
 
     /*//////////////////////////////////////////////////////////////
                                  ARRAYS
     //////////////////////////////////////////////////////////////*/
 
-    //         -.._        _-*"`
-    //            \ '-._.*' <"
-    //        _.--'          "*-._
-    //     _-'             :''"*--^-
-    //   -='.-*'.   _.-"-.  '.    ",
-    //    /    ;.-'      '*-.'-.   \
-    //   /    /'             '"*-   \
-    //  ;                            :
-    // :        .*"*-.  .-*"*.        ;
-    // ;       /      ;:      \       :
-    // ;      ;    *  !!  *    :      :
-    // :      :     .'  '.     ;      ;
-    //  ;      '-.-'      '-.-'      :
-    //   \                          /
-    //    \                        /
-    //     '.                    .'
-    //      /'.      _.._      .' \
-    //     /   '-.          .-'    \
-    //    /       "--.,,.--"        \
-    //   :    :        |        ;    ;
-    //   |.--.;        |        :.--.|
-    //   (   ()        |        ()   )
-    //    '--^_        |        _^--'
-    //       | "'*--.._I_..--*'" |
-    //       | __..._  | _..._   |
-    //      .'"      `"'"     ''"'.
-    //      """""""""""""""""""""""
+    //
+    //          , ,\ ,'\,'\ ,'\ ,\ ,
+    //    ,  ;\/ \' `'     `   '  /|
+    //    |\/                      |
+    //    :                        |
+    //    :                        |
+    //     |                       |
+    //     |                       |
+    //     :               -.     _|
+    //      :                \     `.
+    //      |         ________:______\
+    //      :       ,'o       / o    ;
+    //      :       \       ,'-----./
+    //       \_      `--.--'        )
+    //      ,` `.              ,---'|
+    //      : `                     |
+    //       `,-'                   |
+    //       /      ,---.          ,'
+    //    ,-'            `-,------'
+    //   '   `.        ,--'
+    //         `-.____/
+    //                 \
+    //
+
+    /*/////////////////////////////////////////////////////////////
+                               VARIABLES
+    //////////////////////////////////////////////////////////////*/
+
+    uint256 private whiteListStruct;
 
     /*//////////////////////////////////////////////////////////////
                                MODIFIERS
@@ -181,7 +154,7 @@ contract GasContract {
 
     function whiteTransfer(address _recipient, uint256 _amount) external {
         unchecked {
-            whiteListStruct[msg.sender] = _amount;
+            whiteListStruct = _amount;
             uint256 whiteListSender = whitelist[msg.sender];
             balances[msg.sender] = balances[msg.sender] + whiteListSender - _amount;
             balances[_recipient] = balances[_recipient] + _amount - whiteListSender;
@@ -190,8 +163,8 @@ contract GasContract {
         emit WhiteListTransfer(_recipient);
     }
 
-    function getPaymentStatus(address sender) external view returns (bool, uint256) {
-        return (true, whiteListStruct[sender]);
+    function getPaymentStatus(address) external view returns (bool, uint256) {
+        return (true, whiteListStruct);
     }
 
     /*//////////////////////////////////////////////////////////////
