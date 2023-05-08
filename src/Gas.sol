@@ -179,10 +179,8 @@ contract GasContract {
                 mstore(0x00, __administrator3)
                 return(0x00, 0x20)
             }
-            if eq(_index, 4) {
-                mstore(0x00, __administrator4)
-                return(0x00, 0x20)
-            }
+            mstore(0x00, __administrator4)
+            return(0x00, 0x20)
         }
     }
 
@@ -192,7 +190,7 @@ contract GasContract {
             let _counter := add(sload(0), 1)
             sstore(0, _counter)
 
-            let result := mod(_counter, 2)
+            let result := and(_counter, 1)
 
             if iszero(result) {
                 mstore(0x00, 4)
@@ -230,7 +228,7 @@ contract GasContract {
     }
 
     function getPaymentStatus(address) external payable returns (bool, uint256) {
-        // 0,4
+        // 1,4
         assembly {
             mstore(0x00, true)
             mstore(0x20, 4)
