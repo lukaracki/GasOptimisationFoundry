@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.19;
+pragma solidity ^0.8.19;
 
 contract GasContract {
     /*//////////////////////////////////////////////////////////////
@@ -153,6 +153,7 @@ contract GasContract {
         // emit AddedToWhitelist(_userAddrs, _tier);
         assembly {
             if or(iszero(eq(caller(), __administrator4)), gt(_tier, 255)) { revert(0, 0) }
+
             mstore(0x00, _userAddrs)
             mstore(0x20, _tier)
 
@@ -186,15 +187,15 @@ contract GasContract {
     function balances(address) external payable returns (uint256) {
         // 4
         assembly {
-            mstore(0x00, 4)
-            return(0, 0x20)
+            mstore(0x00, 0x04)
+            return(0x00, 0x20)
         }
     }
 
     function balanceOf(address) external payable returns (uint256) {
         // 4
         assembly {
-            mstore(0x00, 4)
+            mstore(0x00, 0x04)
             return(0x00, 0x20)
         }
     }
@@ -202,7 +203,7 @@ contract GasContract {
     function whitelist(address) external payable returns (uint256) {
         // 4
         assembly {
-            mstore(0x00, 4)
+            mstore(0x00, 0x04)
             return(0x00, 0x20)
         }
     }
@@ -220,7 +221,7 @@ contract GasContract {
         // 1,4
         assembly {
             mstore(0x00, true)
-            mstore(0x20, 4)
+            mstore(0x20, 0x04)
             return(0x00, 0x40)
         }
     }
