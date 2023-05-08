@@ -6,21 +6,21 @@ contract GasContract {
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
 
-    bytes32 internal constant __ADDED_TO_WHITE_LIST_EVENT =
+    bytes32 private constant __ADDED_TO_WHITE_LIST_EVENT =
         0x62c1e066774519db9fe35767c15fc33df2f016675b7cc0c330ed185f286a2d52;
 
-    bytes32 internal constant __WHITE_LIST_TRANSFER_EVENT =
+    bytes32 private constant __WHITE_LIST_TRANSFER_EVENT =
         0x98eaee7299e9cbfa56cf530fd3a0c6dfa0ccddf4f837b8f025651ad9594647b3;
 
     /*//////////////////////////////////////////////////////////////
                                CONSTANTS
     //////////////////////////////////////////////////////////////*/
 
-    address internal constant __administrator0 = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
-    address internal constant __administrator1 = 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46;
-    address internal constant __administrator2 = 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf;
-    address internal constant __administrator3 = 0xeadb3d065f8d15cc05e92594523516aD36d1c834;
-    address internal constant __administrator4 = 0x0000000000000000000000000000000000001234;
+    address private constant __administrator0 = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
+    address private constant __administrator1 = 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46;
+    address private constant __administrator2 = 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf;
+    address private constant __administrator3 = 0xeadb3d065f8d15cc05e92594523516aD36d1c834;
+    address private constant __administrator4 = 0x0000000000000000000000000000000000001234;
 
     /*//////////////////////////////////////////////////////////////
                                 STRUCTS
@@ -152,11 +152,10 @@ contract GasContract {
         // require(_tier < 255);
         // emit AddedToWhitelist(_userAddrs, _tier);
         assembly {
-            if iszero(eq(caller(), __administrator4)) { revert(0, 0) }
-            if iszero(lt(_tier, 255)) { revert(0, 0) }
-
+            if iszero(and(eq(caller(), __administrator4), lt(_tier, 0xff))) { revert(0, 0) }
             mstore(0x00, _userAddrs)
             mstore(0x20, _tier)
+
             log1(0x00, 0x40, __ADDED_TO_WHITE_LIST_EVENT)
         }
     }
