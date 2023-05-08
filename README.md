@@ -19,9 +19,9 @@
 | Optimized        |                 |      |        |      |         |
 | ---------------- | --------------- | ---- | ------ | ---- | ------- |
 | Deployment Cost  | Deployment Size |      |        |      |         |
-| 186651           | 1492            |      |        |      |         |
+| 185451           | 1486            |      |        |      |         |
 | Function Name    | min             | avg  | median | max  | # calls |
-| addToWhitelist   | 295             | 1241 | 1615   | 1615 | 7       |
+| addToWhitelist   | 313             | 1239 | 1610   | 1610 | 7       |
 | administrators   | 332             | 373  | 378    | 402  | 5       |
 | balanceOf        | 331             | 331  | 331    | 331  | 3       |
 | balances         | 287             | 287  | 287    | 287  | 4       |

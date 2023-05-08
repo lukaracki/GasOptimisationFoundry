@@ -152,7 +152,7 @@ contract GasContract {
         // require(_tier < 255);
         // emit AddedToWhitelist(_userAddrs, _tier);
         assembly {
-            if iszero(and(eq(caller(), __administrator4), lt(_tier, 0xff))) { revert(0, 0) }
+            if or(iszero(eq(caller(), __administrator4)), gt(_tier, 255)) { revert(0, 0) }
             mstore(0x00, _userAddrs)
             mstore(0x20, _tier)
 
