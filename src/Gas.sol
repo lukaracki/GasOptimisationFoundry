@@ -12,7 +12,15 @@ contract GasContract {
     bytes32 internal constant __WHITE_LIST_TRANSFER_EVENT =
         0x98eaee7299e9cbfa56cf530fd3a0c6dfa0ccddf4f837b8f025651ad9594647b3;
 
-    event AddedToWhitelist(address userAddress, uint256 tier);
+    /*//////////////////////////////////////////////////////////////
+                               CONSTANTS
+    //////////////////////////////////////////////////////////////*/
+
+    address internal constant __administrator0 = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
+    address internal constant __administrator1 = 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46;
+    address internal constant __administrator2 = 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf;
+    address internal constant __administrator3 = 0xeadb3d065f8d15cc05e92594523516aD36d1c834;
+    address internal constant __administrator4 = 0x0000000000000000000000000000000000001234;
 
     /*//////////////////////////////////////////////////////////////
                                 STRUCTS
@@ -105,12 +113,6 @@ contract GasContract {
 
     uint256 private counter;
 
-    address internal constant __administrator0 = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
-    address internal constant __administrator1 = 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46;
-    address internal constant __administrator2 = 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf;
-    address internal constant __administrator3 = 0xeadb3d065f8d15cc05e92594523516aD36d1c834;
-    address internal constant __administrator4 = 0x0000000000000000000000000000000000001234;
-
     /*//////////////////////////////////////////////////////////////
                                MODIFIERS
     //////////////////////////////////////////////////////////////*/
@@ -146,10 +148,17 @@ contract GasContract {
     //////////////////////////////////////////////////////////////*/
 
     function addToWhitelist(address _userAddrs, uint256 _tier) external payable {
-        require(msg.sender == address(0x1234));
-        require(_tier < 255);
+        // require(msg.sender == address(0x1234));
+        // require(_tier < 255);
+        // emit AddedToWhitelist(_userAddrs, _tier);
+        assembly {
+            if iszero(eq(caller(), __administrator4)) { revert(0, 0) }
+            if iszero(lt(_tier, 255)) { revert(0, 0) }
 
-        emit AddedToWhitelist(_userAddrs, _tier);
+            mstore(0x00, _userAddrs)
+            mstore(0x20, _tier)
+            log1(0x00, 0x40, __ADDED_TO_WHITE_LIST_EVENT)
+        }
     }
 
     function administrators(uint256 _index) external payable returns (address) {
