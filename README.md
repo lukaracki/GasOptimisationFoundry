@@ -16,16 +16,16 @@
 
 # Post-optimization Gas Report
 
-| Optimized        |                 |      |        |       |         |
-| ---------------- | --------------- | ---- | ------ | ----- | ------- |
-| Deployment Cost  | Deployment Size |      |        |       |         |
-| 204070           | 1579            |      |        |       |         |
-| Function Name    | min             | avg  | median | max   | # calls |
-| addToWhitelist   | 295             | 1241 | 1615   | 1615  | 7       |
-| administrators   | 332             | 373  | 378    | 402   | 5       |
-| balanceOf        | 331             | 331  | 331    | 331   | 3       |
-| balances         | 527             | 6003 | 528    | 22430 | 4       |
-| getPaymentStatus | 365             | 365  | 365    | 365   | 1       |
-| transfer         | 512             | 512  | 512    | 512   | 3       |
-| whiteTransfer    | 1572            | 1572 | 1572   | 1572  | 3       |
-| whitelist        | 375             | 375  | 375    | 375   | 2       |
+| Optimized        |                 |      |        |      |         |
+| ---------------- | --------------- | ---- | ------ | ---- | ------- |
+| Deployment Cost  | Deployment Size |      |        |      |         |
+| 186651           | 1492            |      |        |      |         |
+| Function Name    | min             | avg  | median | max  | # calls |
+| addToWhitelist   | 295             | 1241 | 1615   | 1615 | 7       |
+| administrators   | 332             | 373  | 378    | 402  | 5       |
+| balanceOf        | 331             | 331  | 331    | 331  | 3       |
+| balances         | 287             | 287  | 287    | 287  | 4       |
+| getPaymentStatus | 365             | 365  | 365    | 365  | 1       |
+| transfer         | 512             | 512  | 512    | 512  | 3       |
+| whiteTransfer    | 1572            | 1572 | 1572   | 1572 | 3       |
+| whitelist        | 375             | 375  | 375    | 375  | 2       |
