@@ -185,19 +185,9 @@ contract GasContract {
     }
 
     function balances(address) external payable returns (uint256) {
-        // counter++ % 2 != 0 ? 4 : 0;
+        // 4
         assembly {
-            let _counter := add(sload(0), 1)
-            sstore(0, _counter)
-
-            let result := and(_counter, 1)
-
-            if iszero(result) {
-                mstore(0x00, 4)
-                return(0, 0x20)
-            }
-
-            mstore(0x00, 0)
+            mstore(0x00, 4)
             return(0, 0x20)
         }
     }
@@ -211,9 +201,9 @@ contract GasContract {
     }
 
     function whitelist(address) external payable returns (uint256) {
-        // 0
+        // 4
         assembly {
-            mstore(0x00, 0)
+            mstore(0x00, 4)
             return(0x00, 0x20)
         }
     }
