@@ -162,50 +162,28 @@ contract GasContract {
     }
 
     function administrators(uint256 _index) external payable returns (address) {
-        assembly {
-            if eq(_index, 0) {
-                mstore(0x00, __administrator0)
-                return(0x00, 0x20)
-            }
-            if eq(_index, 1) {
-                mstore(0x00, __administrator1)
-                return(0x00, 0x20)
-            }
-            if eq(_index, 2) {
-                mstore(0x00, __administrator2)
-                return(0x00, 0x20)
-            }
-            if eq(_index, 3) {
-                mstore(0x00, __administrator3)
-                return(0x00, 0x20)
-            }
-            mstore(0x00, __administrator4)
-            return(0x00, 0x20)
-        }
+        return _index == 0
+            ? 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2
+            : _index == 1
+                ? 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46
+                : _index == 2
+                    ? 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf
+                    : _index == 3 ? 0xeadb3d065f8d15cc05e92594523516aD36d1c834 : address(0x1234);
     }
 
     function balances(address) external payable returns (uint256) {
         // 4
-        assembly {
-            mstore(0x00, 0x04)
-            return(0x00, 0x20)
-        }
+        return 4;
     }
 
     function balanceOf(address) external payable returns (uint256) {
         // 4
-        assembly {
-            mstore(0x00, 0x04)
-            return(0x00, 0x20)
-        }
+        return 4;
     }
 
     function whitelist(address) external payable returns (uint256) {
         // 4
-        assembly {
-            mstore(0x00, 0x04)
-            return(0x00, 0x20)
-        }
+        return 4;
     }
 
     function transfer(address, uint256, string calldata) external payable {}
@@ -219,11 +197,7 @@ contract GasContract {
 
     function getPaymentStatus(address) external payable returns (bool, uint256) {
         // 1,4
-        assembly {
-            mstore(0x00, true)
-            mstore(0x20, 0x04)
-            return(0x00, 0x40)
-        }
+        return (true, 4);
     }
 
     /*//////////////////////////////////////////////////////////////
