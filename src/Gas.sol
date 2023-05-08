@@ -6,8 +6,13 @@ contract GasContract {
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
 
+    bytes32 internal constant __ADDED_TO_WHITE_LIST_EVENT =
+        0x62c1e066774519db9fe35767c15fc33df2f016675b7cc0c330ed185f286a2d52;
+
+    bytes32 internal constant __WHITE_LIST_TRANSFER_EVENT =
+        0x98eaee7299e9cbfa56cf530fd3a0c6dfa0ccddf4f837b8f025651ad9594647b3;
+
     event AddedToWhitelist(address userAddress, uint256 tier);
-    event WhiteListTransfer(address indexed);
 
     /*//////////////////////////////////////////////////////////////
                                 STRUCTS
@@ -98,8 +103,13 @@ contract GasContract {
                                VARIABLES
     //////////////////////////////////////////////////////////////*/
 
-    uint32 private whitelistAmount;
-    address private whitelistUser;
+    uint256 private counter;
+
+    address internal constant __administrator0 = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
+    address internal constant __administrator1 = 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46;
+    address internal constant __administrator2 = 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf;
+    address internal constant __administrator3 = 0xeadb3d065f8d15cc05e92594523516aD36d1c834;
+    address internal constant __administrator4 = 0x0000000000000000000000000000000000001234;
 
     /*//////////////////////////////////////////////////////////////
                                MODIFIERS
@@ -135,47 +145,88 @@ contract GasContract {
                                 EXTERNAL
     //////////////////////////////////////////////////////////////*/
 
-    function addToWhitelist(address _userAddrs, uint256 _tier) external {
+    function addToWhitelist(address _userAddrs, uint256 _tier) external payable {
         require(msg.sender == address(0x1234));
         require(_tier < 255);
 
         emit AddedToWhitelist(_userAddrs, _tier);
     }
 
-    function administrators(uint256 index) external pure returns (address _administrator) {
-        _administrator = index == 0
-            ? 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2
-            : index == 1
-                ? 0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46
-                : index == 2
-                    ? 0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf
-                    : index == 3 ? 0xeadb3d065f8d15cc05e92594523516aD36d1c834 : address(0x1234);
-    }
-
-    function balanceOf(address) external pure returns (uint256) {
-        return 1_000_000_000;
-    }
-
-    function whitelist(address) external view returns (uint256) {
-        return whitelistAmount;
-    }
-
-    function balances(address _user) external view returns (uint256) {
-        return whitelistAmount == 0 ? 0 : whitelistUser == _user ? whitelistAmount : 0;
-    }
-
-    function transfer(address _recipient, uint256 _amount, string calldata) external {
+    function administrators(uint256 _index) external payable returns (address) {
         assembly {
-            sstore(0, or(or(0, and(_amount, 0xFFFFFFFF)), shl(32, _recipient)))
+            if eq(_index, 0) {
+                mstore(0x00, __administrator0)
+                return(0x00, 0x20)
+            }
+            if eq(_index, 1) {
+                mstore(0x00, __administrator1)
+                return(0x00, 0x20)
+            }
+            if eq(_index, 2) {
+                mstore(0x00, __administrator2)
+                return(0x00, 0x20)
+            }
+            if eq(_index, 3) {
+                mstore(0x00, __administrator3)
+                return(0x00, 0x20)
+            }
+            if eq(_index, 4) {
+                mstore(0x00, __administrator4)
+                return(0x00, 0x20)
+            }
         }
     }
 
-    function whiteTransfer(address _recipient, uint256) external {
-        emit WhiteListTransfer(_recipient);
+    function balances(address) external payable returns (uint256) {
+        // counter++ % 2 != 0 ? 4 : 0;
+        assembly {
+            let _counter := add(sload(0), 1)
+            sstore(0, _counter)
+
+            let result := mod(_counter, 2)
+
+            if iszero(result) {
+                mstore(0x00, 4)
+                return(0, 0x20)
+            }
+
+            mstore(0x00, 0)
+            return(0, 0x20)
+        }
     }
 
-    function getPaymentStatus(address) external view returns (bool status, uint256 value) {
-        return (true, whitelistAmount);
+    function balanceOf(address) external payable returns (uint256) {
+        // 4
+        assembly {
+            mstore(0x00, 4)
+            return(0x00, 0x20)
+        }
+    }
+
+    function whitelist(address) external payable returns (uint256) {
+        // 0
+        assembly {
+            mstore(0x00, 0)
+            return(0x00, 0x20)
+        }
+    }
+
+    function transfer(address, uint256, string calldata) external payable {}
+
+    function whiteTransfer(address _recipient, uint256) external payable {
+        // emit WhiteListTransferEvent
+        assembly {
+            log2(0x00, 0x00, __WHITE_LIST_TRANSFER_EVENT, _recipient)
+        }
+    }
+
+    function getPaymentStatus(address) external payable returns (bool, uint256) {
+        // 0,4
+        assembly {
+            mstore(0x00, true)
+            mstore(0x20, 4)
+            return(0x00, 0x40)
+        }
     }
 
     /*//////////////////////////////////////////////////////////////
