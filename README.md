@@ -19,12 +19,12 @@
 | Optimized        |                 |      |        |       |         |
 | ---------------- | --------------- | ---- | ------ | ----- | ------- |
 | Deployment Cost  | Deployment Size |      |        |       |         |
-| 210076           | 1609            |      |        |       |         |
+| 204070           | 1579            |      |        |       |         |
 | Function Name    | min             | avg  | median | max   | # calls |
-| addToWhitelist   | 295             | 1286 | 1678   | 1678  | 7       |
-| administrators   | 332             | 378  | 378    | 424   | 5       |
+| addToWhitelist   | 295             | 1241 | 1615   | 1615  | 7       |
+| administrators   | 332             | 373  | 378    | 402   | 5       |
 | balanceOf        | 331             | 331  | 331    | 331   | 3       |
-| balances         | 535             | 6011 | 536    | 22438 | 4       |
+| balances         | 527             | 6003 | 528    | 22430 | 4       |
 | getPaymentStatus | 365             | 365  | 365    | 365   | 1       |
 | transfer         | 512             | 512  | 512    | 512   | 3       |
 | whiteTransfer    | 1572            | 1572 | 1572   | 1572  | 3       |
